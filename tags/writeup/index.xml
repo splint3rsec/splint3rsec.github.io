@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/">
+  <channel>
+    <title>writeup on Splint3rsec Blog</title>
+    <link>https://splint3rsec.github.io/tags/writeup/</link>
+    <description>Recent content in writeup on Splint3rsec Blog</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 02 Jun 2021 20:54:01 +0200</lastBuildDate><atom:link href="https://splint3rsec.github.io/tags/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Admin Panel? Pwned!</title>
+      <link>https://splint3rsec.github.io/posts/one/</link>
+      <pubDate>Wed, 02 Jun 2021 20:54:01 +0200</pubDate>
+      
+      <guid>https://splint3rsec.github.io/posts/one/</guid>
+      <description>Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.
+Before you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!
+Recon phase After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol).</description>
+    </item>
+    
+  </channel>
+</rss>
