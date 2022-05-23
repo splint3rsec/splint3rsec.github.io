@@ -1,0 +1,1 @@
+Security content and bug bounty blog by splint3rsec.
