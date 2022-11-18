@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="en" dir="auto">
+
+<head><meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="robots" content="index, follow">
+<title>Admin Panel? Pwned! | Splint3rsec Blog</title>
+<meta name="keywords" content="writeup">
+<meta name="description" content="Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.
+Before you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!
+Recon phase After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol).">
+<meta name="author" content="splint3rsec">
+<link rel="canonical" href="https://splint3rsec.github.io/posts/one/">
+<link crossorigin="anonymous" href="/assets/css/stylesheet.3299c596a7007118365635c056dd427dace22b7b8c1341fdef6fa6c31359ba10.css" integrity="sha256-MpnFlqcAcRg2VjXAVt1CfaziK3uME0H972&#43;mwxNZuhA=" rel="preload stylesheet" as="style">
+<script defer crossorigin="anonymous" src="/assets/js/highlight.acb54fd32bbc1982428b8850317e45d076b95012730a5936667e6bc21777692a.js" integrity="sha256-rLVP0yu8GYJCi4hQMX5F0Ha5UBJzClk2Zn5rwhd3aSo="
+    onload="hljs.initHighlightingOnLoad();"></script>
+<link rel="icon" href="https://splint3rsec.github.io/favicon.ico">
+<link rel="icon" type="image/png" sizes="16x16" href="https://splint3rsec.github.io/favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="https://splint3rsec.github.io/favicon-32x32.png">
+<link rel="apple-touch-icon" href="https://splint3rsec.github.io/apple-touch-icon.png">
+<link rel="mask-icon" href="https://splint3rsec.github.io/safari-pinned-tab.svg">
+<meta name="theme-color" content="#2e2e33">
+<meta name="msapplication-TileColor" content="#2e2e33">
+<noscript>
+    <style>
+        #theme-toggle,
+        .top-link {
+            display: none;
+        }
+
+    </style>
+    <style>
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --theme: rgb(29, 30, 32);
+                --entry: rgb(46, 46, 51);
+                --primary: rgb(218, 218, 219);
+                --secondary: rgb(155, 156, 157);
+                --tertiary: rgb(65, 66, 68);
+                --content: rgb(196, 196, 197);
+                --hljs-bg: rgb(46, 46, 51);
+                --code-bg: rgb(55, 56, 62);
+                --border: rgb(51, 51, 51);
+            }
+
+            .list {
+                background: var(--theme);
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-track {
+                background: 0 0;
+            }
+
+            .list:not(.dark)::-webkit-scrollbar-thumb {
+                border-color: var(--theme);
+            }
+        }
+
+    </style>
+</noscript><meta property="og:title" content="Admin Panel? Pwned!" />
+<meta property="og:description" content="Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.
+Before you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!
+Recon phase After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol)." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://splint3rsec.github.io/posts/one/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-06-02T20:54:01+02:00" />
+<meta property="article:modified_time" content="2021-06-02T20:54:01+02:00" />
+
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Admin Panel? Pwned!"/>
+<meta name="twitter:description" content="Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.
+Before you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!
+Recon phase After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol)."/>
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position":  1 ,
+      "name": "Posts",
+      "item": "https://splint3rsec.github.io/posts/"
+    }, 
+    {
+      "@type": "ListItem",
+      "position":  2 ,
+      "name": "Admin Panel? Pwned!",
+      "item": "https://splint3rsec.github.io/posts/one/"
+    }
+  ]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Admin Panel? Pwned!",
+  "name": "Admin Panel? Pwned!",
+  "description": "Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.\nBefore you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!\nRecon phase After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol).",
+  "keywords": [
+    "writeup"
+  ],
+  "articleBody": "Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.\nBefore you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!\nRecon phase After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol). Here’s my workflow:\nAssetfinder + subfinder → httpx with title, status code and content length\nSo I got around 60 alive unique subdomains, great :) ! Let’s start the active enumeration…\nSubdomains Analysis Something that experienced bug hunters thaught me is to check the subdomains without doing screenshots, the title and status code plus the content length are more than enough to do the job, and it’s more efficient since you don’t get blank screenshots or redirects and probably miss something…\nScrolling down through the subdomains list, I saw one of them that got my attention\nHmm… dashboard.redacted.com and a 301 redirect status triggered my inner voice; “A 1 minute quick check won’t hurt you :)”. My intention was to intercept the redirection and do some magic there, but when I opened the URL, no it was not the case where you can test your magic tricks, I got an admin login page.\nPwn Phase At first, I did what everyone of you would do, I started guessing default credentials, looking for hidden unsanitized parameters (XSS), injecting single and double quotes (SQLi)… But nothing worked :/\nThat’s okay, now the next step is what the majority of you won’t do, read the source code :) I strongly advice you to do that everytime you’re visiting an endpoint, and as my inner voice said earlier “A 1 minute quick check won’t hurt you :)” sometimes you will be surprised.\nOkay, let’s check the source code\nOf course I won’t close the window and check for another subdomain before looking what’s inside that javascript file! Plus it’s name should reaaally get your attention. So I went to the file and guess what?\nStoring your credentials inside a javascript comment? Naah I don’t think they’re valid, let’s see…\nWe successfully pwned our admin :D\nNote that I can’t screenshot the whole dashboard because you may easily guess the company from it’s design…\nI tried to dig more in the dashboard to check if they have an upload endpoint or something but there’s nothing, all you can do is view data and download it.\nKey Takeaways Never underestimate the power of recon, just do it properly without wasting time and you will definitely get some results. Don’t miss reading the source code and especially javascript files, you may get credentials, API keys or even sensitive hidden endpoints… Just keep looking and open your eyes! Always trust your gut, the subconscious mind is triggered based on previous experience and stages of your workflow as a bug hunter. Hack properly and never give up, I didn’t after this duplicate and got a very nice bug triaged, which I will share with you once it’s disclosed. If you enjoyed reading my 1st writeup, share it with your friends and remind them to read JS files :) Thanks for reaching this part of the writeup ❤ and ’til the next one!\n",
+  "wordCount" : "575",
+  "inLanguage": "en",
+  "datePublished": "2021-06-02T20:54:01+02:00",
+  "dateModified": "2021-06-02T20:54:01+02:00",
+  "author":{
+    "@type": "Person",
+    "name": "splint3rsec"
+  },
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://splint3rsec.github.io/posts/one/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Splint3rsec Blog",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://splint3rsec.github.io/favicon.ico"
+    }
+  }
+}
+</script>
+</head>
+
+<body class="" id="top">
+<script>
+    if (localStorage.getItem("pref-theme") === "dark") {
+        document.body.classList.add('dark');
+    } else if (localStorage.getItem("pref-theme") === "light") {
+        document.body.classList.remove('dark')
+    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        document.body.classList.add('dark');
+    }
+
+</script>
+
+<header class="header">
+    <nav class="nav">
+        <div class="logo">
+            <a href="https://splint3rsec.github.io/" accesskey="h" title="Splint3rsec Blog (Alt + H)">Splint3rsec Blog</a>
+            <div class="logo-switches">
+                <button id="theme-toggle" accesskey="t" title="(Alt + T)">
+                    <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                    <svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="18" viewBox="0 0 24 24"
+                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <line x1="12" y1="1" x2="12" y2="3"></line>
+                        <line x1="12" y1="21" x2="12" y2="23"></line>
+                        <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                        <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                        <line x1="1" y1="12" x2="3" y2="12"></line>
+                        <line x1="21" y1="12" x2="23" y2="12"></line>
+                        <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                        <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+        <ul id="menu">
+        </ul>
+    </nav>
+</header>
+<main class="main">
+
+<article class="post-single">
+  <header class="post-header">
+    
+    <h1 class="post-title">
+      Admin Panel? Pwned!
+    </h1>
+    <div class="post-meta"><span title='2021-06-02 20:54:01 +0200 CEST'>June 2, 2021</span>&nbsp;·&nbsp;splint3rsec
+
+</div>
+  </header> 
+  <div class="post-content"><p>Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.</p>
+<p>Before you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!</p>
+<p><img loading="lazy" src="/one/1.png" alt="dup"  />
+</p>
+<h2 id="recon-phase">Recon phase<a hidden class="anchor" aria-hidden="true" href="#recon-phase">#</a></h2>
+<p>After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol). Here’s my workflow:</p>
+<p><strong>Assetfinder + subfinder → httpx with title, status code and content length</strong></p>
+<p>So I got around 60 alive unique subdomains, great :) ! Let’s start the active enumeration…</p>
+<h2 id="subdomains-analysis">Subdomains Analysis<a hidden class="anchor" aria-hidden="true" href="#subdomains-analysis">#</a></h2>
+<p>Something that experienced bug hunters thaught me is to check the subdomains without doing screenshots, the title and status code plus the content length are more than enough to do the job, and it’s more efficient since you don’t get blank screenshots or redirects and probably miss something…</p>
+<p>Scrolling down through the subdomains list, I saw one of them that got my attention</p>
+<p><img loading="lazy" src="/one/2.png" alt="results"  />
+</p>
+<p>Hmm… <strong>dashboard.redacted.com</strong> and a <strong>301 redirect</strong> status triggered my inner voice; <em>“A 1 minute quick check won’t hurt you :)”</em>. My intention was to intercept the redirection and do some magic there, but when I opened the URL, no it was not the case where you can test your magic tricks, I got an admin login page.</p>
+<p><img loading="lazy" src="/one/3.png" alt="login"  />
+</p>
+<h2 id="pwn-phase">Pwn Phase<a hidden class="anchor" aria-hidden="true" href="#pwn-phase">#</a></h2>
+<p>At first, I did what everyone of you would do, I started guessing default credentials, looking for hidden unsanitized parameters (XSS), injecting single and double quotes (SQLi)… But nothing worked :/</p>
+<p>That’s okay, now the next step is what the majority of you won’t do, read the source code :) I strongly advice you to do that everytime you’re visiting an endpoint, and as my inner voice said earlier <em>“A 1 minute quick check won’t hurt you :)”</em> sometimes you will be surprised.</p>
+<p>Okay, let’s check the source code</p>
+<p><img loading="lazy" src="/one/4.png" alt="source code"  />
+</p>
+<p>Of course I won’t close the window and check for another subdomain before looking what’s inside that javascript file! Plus it’s name should reaaally get your attention. So I went to the file and guess what?</p>
+<p><img loading="lazy" src="/one/5.png" alt="creds"  />
+</p>
+<p>Storing your credentials inside a javascript comment? Naah I don’t think they’re valid, let’s see…</p>
+<p><img loading="lazy" src="/one/6.png" alt="creds"  />
+</p>
+<p>We successfully pwned our admin :D</p>
+<p>Note that I can’t screenshot the whole dashboard because you may easily guess the company from it’s design…</p>
+<p>I tried to dig more in the dashboard to check if they have an upload endpoint or something but there’s nothing, all you can do is view data and download it.</p>
+<h2 id="key-takeaways">Key Takeaways<a hidden class="anchor" aria-hidden="true" href="#key-takeaways">#</a></h2>
+<ul>
+<li>Never underestimate the power of recon, just do it properly without wasting time and you will definitely get some results.</li>
+<li>Don’t miss reading the source code and especially javascript files, you may get credentials, API keys or even sensitive hidden endpoints… Just keep looking and open your eyes!</li>
+<li>Always trust your gut, the subconscious mind is triggered based on previous experience and stages of your workflow as a bug hunter.</li>
+<li>Hack properly and never give up, I didn’t after this duplicate and got a very nice bug triaged, which I will share with you once it’s disclosed.</li>
+<li>If you enjoyed reading my 1st writeup, share it with your friends and remind them to read JS files :)</li>
+</ul>
+<p>Thanks for reaching this part of the writeup ❤ and ’til the next one!</p>
+
+
+  </div>
+
+  <footer class="post-footer">
+    <ul class="post-tags">
+      <li><a href="https://splint3rsec.github.io/tags/writeup/">writeup</a></li>
+    </ul>
+  </footer>
+</article>
+    </main>
+    
+<footer class="footer">
+    <span>&copy; 2022 <a href="https://splint3rsec.github.io/">Splint3rsec Blog</a></span>
+    <span>
+        Powered by
+        <a href="https://gohugo.io/" rel="noopener noreferrer" target="_blank">Hugo</a> &
+        <a href="https://github.com/adityatelange/hugo-PaperMod/" rel="noopener" target="_blank">PaperMod</a>
+    </span>
+</footer>
+<a href="#top" aria-label="go to top" title="Go to Top (Alt + G)" class="top-link" id="top-link" accesskey="g">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentColor">
+        <path d="M12 6H0l6-6z" />
+    </svg>
+</a>
+
+<script>
+    let menu = document.getElementById('menu')
+    if (menu) {
+        menu.scrollLeft = localStorage.getItem("menu-scroll-position");
+        menu.onscroll = function () {
+            localStorage.setItem("menu-scroll-position", menu.scrollLeft);
+        }
+    }
+
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener("click", function (e) {
+            e.preventDefault();
+            var id = this.getAttribute("href").substr(1);
+            if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({
+                    behavior: "smooth"
+                });
+            } else {
+                document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView();
+            }
+            if (id === "top") {
+                history.replaceState(null, null, " ");
+            } else {
+                history.pushState(null, null, `#${id}`);
+            }
+        });
+    });
+
+</script>
+<script>
+    var mybutton = document.getElementById("top-link");
+    window.onscroll = function () {
+        if (document.body.scrollTop > 800 || document.documentElement.scrollTop > 800) {
+            mybutton.style.visibility = "visible";
+            mybutton.style.opacity = "1";
+        } else {
+            mybutton.style.visibility = "hidden";
+            mybutton.style.opacity = "0";
+        }
+    };
+
+</script>
+<script>
+    document.getElementById("theme-toggle").addEventListener("click", () => {
+        if (document.body.className.includes("dark")) {
+            document.body.classList.remove('dark');
+            localStorage.setItem("pref-theme", 'light');
+        } else {
+            document.body.classList.add('dark');
+            localStorage.setItem("pref-theme", 'dark');
+        }
+    })
+
+</script>
+</body>
+
+</html>
