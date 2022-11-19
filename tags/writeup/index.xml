@@ -6,7 +6,17 @@
     <description>Recent content in writeup on Splint3rsec Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Wed, 02 Jun 2021 20:54:01 +0200</lastBuildDate><atom:link href="https://splint3rsec.github.io/tags/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 19 Nov 2022 12:26:08 +0100</lastBuildDate><atom:link href="https://splint3rsec.github.io/tags/writeup/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Russian roulette XSS</title>
+      <link>https://splint3rsec.github.io/posts/two/</link>
+      <pubDate>Sat, 19 Nov 2022 12:26:08 +0100</pubDate>
+      
+      <guid>https://splint3rsec.github.io/posts/two/</guid>
+      <description>Story It all happened during an exhaustive week of studying, the night before having a tough exam in Datascience, where I have to remember all kind of complex math formulas. 10 pm, tired of studying and don&amp;rsquo;t feel sleepy yet, I decided to hunt on Synack for 1 hour before going to bed. And this was the best decision I made that night!
+The motivation behind choosing Synack over other platforms is that my friend Conda got into the SRT and I remembered that tweet!</description>
+    </item>
+    
     <item>
       <title>Admin Panel? Pwned!</title>
       <link>https://splint3rsec.github.io/posts/one/</link>
