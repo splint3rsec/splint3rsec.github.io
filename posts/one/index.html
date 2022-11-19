@@ -3,6 +3,7 @@
 <title>Admin Panel? Pwned! | Splint3rsec Blog</title>
 <meta charset="utf-8">
 <meta name="generator" content="Hugo 0.105.0">
+<meta name="description" content="Security content and writeups">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://splint3rsec.github.io/css/index.css">
 <link rel="canonical" href="https://splint3rsec.github.io/posts/one/">
@@ -22,7 +23,7 @@
   </header>
   <p>Hello everyone, welcome to my first writeup about a funny story of how some admins store their passwords nowadays.</p>
 <p>Before you start reading, I want to mention that this finding was closed as a duplicate, so kudos to the first researcher who reported it!</p>
-<p><img src="/one/1.png" alt="dup"></p>
+<p><img src="/one/1.png#center" alt="dup"></p>
 <h2 id="recon-phase">Recon phase</h2>
 <p>After picking a target on HackerOne (won’t disclose), I started my subdomain enumeration… For this step I don’t like to complicate things, I just follow what everyone does for gathering subdomains (which I don’t recommend, always try to be different than others to avoid dupes lol). Here’s my workflow:</p>
 <p><strong>Assetfinder + subfinder → httpx with title, status code and content length</strong></p>
@@ -30,18 +31,18 @@
 <h2 id="subdomains-analysis">Subdomains Analysis</h2>
 <p>Something that experienced bug hunters thaught me is to check the subdomains without doing screenshots, the title and status code plus the content length are more than enough to do the job, and it’s more efficient since you don’t get blank screenshots or redirects and probably miss something…</p>
 <p>Scrolling down through the subdomains list, I saw one of them that got my attention</p>
-<p><img src="/one/2.png" alt="results"></p>
+<p><img src="/one/2.png#center" alt="results"></p>
 <p>Hmm… <strong>dashboard.redacted.com</strong> and a <strong>301 redirect</strong> status triggered my inner voice; <em>“A 1 minute quick check won’t hurt you :)”</em>. My intention was to intercept the redirection and do some magic there, but when I opened the URL, no it was not the case where you can test your magic tricks, I got an admin login page.</p>
-<p><img src="/one/3.png" alt="login"></p>
+<p><img src="/one/3.png#center" alt="login"></p>
 <h2 id="pwn-phase">Pwn Phase</h2>
 <p>At first, I did what everyone of you would do, I started guessing default credentials, looking for hidden unsanitized parameters (XSS), injecting single and double quotes (SQLi)… But nothing worked :/</p>
 <p>That’s okay, now the next step is what the majority of you won’t do, read the source code :) I strongly advice you to do that everytime you’re visiting an endpoint, and as my inner voice said earlier <em>“A 1 minute quick check won’t hurt you :)”</em> sometimes you will be surprised.</p>
 <p>Okay, let’s check the source code</p>
-<p><img src="/one/4.png" alt="source code"></p>
+<p><img src="/one/4.png#center" alt="source code"></p>
 <p>Of course I won’t close the window and check for another subdomain before looking what’s inside that javascript file! Plus it’s name should reaaally get your attention. So I went to the file and guess what?</p>
-<p><img src="/one/5.png" alt="creds"></p>
+<p><img src="/one/5.png#center" alt="creds"></p>
 <p>Storing your credentials inside a javascript comment? Naah I don’t think they’re valid, let’s see…</p>
-<p><img src="/one/6.png" alt="creds"></p>
+<p><img src="/one/6.png#center" alt="creds"></p>
 <p>We successfully pwned our admin :D</p>
 <p>Note that I can’t screenshot the whole dashboard because you may easily guess the company from it’s design…</p>
 <p>I tried to dig more in the dashboard to check if they have an upload endpoint or something but there’s nothing, all you can do is view data and download it.</p>
